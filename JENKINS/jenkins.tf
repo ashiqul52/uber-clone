@@ -83,24 +83,27 @@ data "aws_ami" "ubuntu" {
     owners = ["099720109477"]
 }
 
-# launch the ec2 instance and install website
+# launch the EC2 instance and install website
 resource "aws_instance" "ec2_instance" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.2xlarge" 
+  instance_type          = "t3.2xlarge"
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.ec2_security_group_jenkins.id]
   key_name               = "devopskeypair"
-root_block_device {
-    volume_size = 50          # Root volume size in GB
-    volume_type = "gp2"       # Volume type (optional)
+
+  root_block_device {
+    volume_size = 50       # Root volume size in GB
+    volume_type = "gp2"    # General Purpose SSD
   }
 
-  # user_data            = file("install_jenkins.sh")
+  # Optional startup script
+  # user_data = file("install_jenkins.sh")
 
   tags = {
     Name = "jenkins_server"
   }
 }
+
 
 
 # an empty resource block
