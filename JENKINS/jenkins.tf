@@ -1,7 +1,7 @@
 # configured aws provider with proper credentials
 provider "aws" {
   region    = "us-east-1"
-  profile   = "yusuf"
+  profile   = "martins"
 }
 
 
@@ -86,10 +86,15 @@ data "aws_ami" "ubuntu" {
 # launch the ec2 instance and install website
 resource "aws_instance" "ec2_instance" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t2.small"
+  instance_type          = "t3.2xlarge" 
   subnet_id              = aws_default_subnet.default_az1.id
   vpc_security_group_ids = [aws_security_group.ec2_security_group_jenkins.id]
   key_name               = "devopskeypair"
+root_block_device {
+    volume_size = 50          # Root volume size in GB
+    volume_type = "gp2"       # Volume type (optional)
+  }
+
   # user_data            = file("install_jenkins.sh")
 
   tags = {
