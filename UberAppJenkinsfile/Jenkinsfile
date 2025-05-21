@@ -55,8 +55,8 @@ pipeline{
                    withDockerRegistry(credentialsId: 'docker_pass', toolName: 'docker'){
                        sh "docker system prune -a -f --volumes"
                        sh "docker build -t uber ."
-                       sh "docker tag uber tkibnyusuf/uber:latest "
-                       sh "docker push tkibnyusuf/uber:latest "
+                       sh "docker tag uber matolala/uber:latest "
+                       sh "docker push matolala/uber:latest "
                     }
                 }
             }
