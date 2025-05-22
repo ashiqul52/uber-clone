@@ -20,7 +20,7 @@ pipeline{
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-scanner') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="Application-deployment" \
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="Application_deployment" \
                     -Dsonar.projectKey="Application deployment"'''
                 }
             }
