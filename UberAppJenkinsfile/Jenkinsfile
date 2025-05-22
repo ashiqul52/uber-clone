@@ -20,8 +20,8 @@ pipeline{
         stage("Sonarqube Analysis "){
             steps{
                 withSonarQubeEnv('sonar-scanner') {
-                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="Application_deployment" \
-                    -Dsonar.projectKey="Application_deployment"'''
+                    sh ''' $SCANNER_HOME/bin/sonar-scanner -Dsonar.projectName="Application deployment" \
+                    -Dsonar.projectKey="Application deployment"'''
                 }
             }
         }
@@ -63,7 +63,7 @@ pipeline{
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image tkibnyusuf/uber:latest > trivyimage.json"
+                sh "trivy image matolala/uber:latest > trivyimage.json"
             }
         }        
         stage('Deploy to kubernetes'){
