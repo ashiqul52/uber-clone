@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: uber
-        image: matolala/uber:latest
+        image: ashiq52/uber:latest
         ports:
         - containerPort: 3000  # Port your application listens on
 
