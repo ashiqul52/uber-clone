@@ -14,7 +14,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/matolala/uber-clone.git'
+                git branch: 'main', url: 'https://github.com/ashiq52/uber-clone.git'
             }
         }
         stage("Sonarqube Analysis "){
@@ -55,15 +55,15 @@ pipeline{
                    withDockerRegistry(credentialsId: 'docker_pass', toolName: 'docker'){
                        sh "docker system prune -a -f --volumes"
                        sh "docker build -t uber ."
-                       sh "docker tag uber matolala/uber:latest "
-                       sh "docker push matolala/uber:latest "
+                       sh "docker tag uber ashiq52/uber:latest "
+                       sh "docker push ashiq52/uber:latest "
                     }
                 }
             }
         }
         stage("TRIVY"){
             steps{
-                sh "trivy image matolala/uber:latest > trivyimage.json"
+                sh "trivy image ashiq52/uber:latest > trivyimage.json"
             }
         }        
         stage('Deploy to kubernetes'){
