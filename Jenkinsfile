@@ -9,36 +9,37 @@ pipeline {
     stages {
         stage('Run Terrascan') {
             steps {
-                    // Run Terrascan and save the JSON output
                 script {
                     def scanStatus = sh(
                         script: '''
-                        docker run --rm -v /var/lib/jenkins/workspace/eks_deployment:/iac tenable/terrascan:latest scan -d /iac -o json
- > terrascan_output.json
+                        docker run --rm -v /var/lib/jenkins/workspace/eks_deployment/EKS_Terraform:/iac tenable/terrascan:latest scan -d /iac -o json > terrascan_output.json
                         ''',
                         returnStatus: true
                     )
-      
-                    // Archive Terrascan results
+                    
                     archiveArtifacts artifacts: 'terrascan_output.json', allowEmptyArchive: true
-                    
-                    // Parse JSON output
-                    def jsonContent = readFile('terrascan_output.json')
-                    def parsedJSON = new groovy.json.JsonSlurper().parseText(jsonContent)
-                    
-                    // Count medium and high severity violations
-                    def mediumViolations = parsedJSON.results.violations.findAll { it.severity == 'MEDIUM' }.size()
-                    def highViolations = parsedJSON.results.violations.findAll { it.severity == 'HIGH' }.size()
 
-                    // Fail pipeline if medium or high severity vulnerabilities exist
+                    def jsonContent = readFile('terrascan_output.json').trim()
+
+                    if (!jsonContent) {
+                        error("Terrascan did not return valid output. Directory may be empty or contain no Terraform files.")
+                    }
+
+                    def parsedJSON = new groovy.json.JsonSlurper().parseText(jsonContent)
+
+                    def violations = parsedJSON.results.violations ?: []
+                    def mediumViolations = violations.findAll { it.severity == 'MEDIUM' }.size()
+                    def highViolations = violations.findAll { it.severity == 'HIGH' }.size()
+
                     if (mediumViolations > 0 || highViolations > 0) {
                         error("Terrascan found ${mediumViolations} medium and ${highViolations} high severity vulnerabilities. Check terrascan_output.json for details.")
                     } else {
-                        echo "No critical vulnerabilities found. Proceeding with Terraform commands."
+                        echo "✅ No critical vulnerabilities found. Proceeding with Terraform steps."
                     }
                 }
             }
         }
+
         stage('Terraform Init') {
             steps {
                 sh '''
@@ -47,6 +48,7 @@ pipeline {
                 '''
             }
         }
+
         stage('Terraform Validate') {
             steps {
                 sh '''
@@ -55,9 +57,9 @@ pipeline {
                 '''
             }
         }
+
         stage('Terraform Apply') {
             steps {
-                // Automatically approve the apply step
                 sh '''
                 cd /var/lib/jenkins/workspace/eks_deployment/EKS_Terraform
                 terraform ${action} -auto-approve
@@ -65,6 +67,7 @@ pipeline {
             }
         }
     }
+
     post {
         always {
             echo 'Pipeline execution completed.'
