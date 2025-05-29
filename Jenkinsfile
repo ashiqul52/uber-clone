@@ -62,7 +62,7 @@ pipeline {
             steps {
                 sh '''
                 cd /var/lib/jenkins/workspace/eks_deployment/EKS_Terraform
-                terraform ${action} -auto-approve
+                terraform ${action} --auto-approve
                 '''
             }
         }
