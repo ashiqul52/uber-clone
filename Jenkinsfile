@@ -8,11 +8,6 @@ pipeline {
     }    
 
     stages {
-        stage('Checkout Code') {
-            steps {
-                git credentialsId: 'github_token',  // 
-                    url: 'https://github.com/ashiq52/uber-clone.git'
-    stages {
         stage('Run Terrascan') {
             steps {
                 script {
