@@ -6,6 +6,12 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     }    
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git credentialsId: 'github_token',  // 
+                    url: 'https://github.com/ashiq52/uber-clone.git'
     stages {
         stage('Run Terrascan') {
             steps {
