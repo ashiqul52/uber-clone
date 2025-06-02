@@ -29,7 +29,7 @@ data "aws_vpc" "default" {
 }
 #cluster provision
 resource "aws_eks_cluster" "example" {
-  name     = "myAppp-eks-cluster1"
+  name     = "EKS_CLOUD"
   role_arn = aws_iam_role.example.arn
   # Enable control plane logging
   enabled_cluster_log_types = [
