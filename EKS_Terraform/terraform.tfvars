@@ -1,1 +1,1 @@
-subnet_ids = ["subnet-029266f7a017d71c0","subnet-051233c1ac91e77e3","subnet-0508b38d203351f4f"]
+subnet_ids = ["subnet-0621814a80b2170e1","subnet-0c125c4cc8da51cc5","ssubnet-0ecb9d9b41ebe6eff"]
