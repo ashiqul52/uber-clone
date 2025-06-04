@@ -15,7 +15,7 @@ pipeline {
         checkout([$class: 'GitSCM',
           branches: [[name: '*/main']],
           userRemoteConfigs: [[
-            url: 'https://github.com/ashiq52/uber-clone.git',
+            url: 'https://github.com/ashiqul52/uber-clone.git',
             credentialsId: 'github-token'
           ]]
         ])
