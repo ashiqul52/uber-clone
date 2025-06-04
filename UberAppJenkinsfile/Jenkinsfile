@@ -14,7 +14,7 @@ pipeline{
         }
         stage('Checkout from Git'){
             steps{
-                git branch: 'main', url: 'https://github.com/ashiq52/uber-clone.git'
+                git branch: 'main', url: 'https://github.com/ashiqul52/uber-clone.git'
             }
         }
         stage("Sonarqube Analysis "){
