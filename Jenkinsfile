@@ -7,6 +7,25 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('aws_secret_access_key')
     }    
 
+    pipeline {
+  agent any
+  stages {
+    stage('Clone Repo') {
+      steps {
+        checkout([$class: 'GitSCM',
+          branches: [[name: '*/main']],
+          userRemoteConfigs: [[
+            url: 'https://github.com/ashiq52/uber-clone.git',
+            credentialsId: 'github-token'
+          ]]
+        ])
+      }
+    }
+
+    // ... other stages like Sonarqube, Docker Build etc.
+  }
+}
+
     stages {
         stage('Run Terrascan') {
             steps {
