@@ -57,7 +57,7 @@ pipeline{
                        sh "docker system prune -a -f --volumes"
                        sh "docker build -t uber ."
                        sh "docker tag uber ashiq52/uber:latest"
-                       sh "docker push ashiq52/uber:latest "
+                       sh "docker push ashiq52/uber:latest"
                     }
                 }
             }
