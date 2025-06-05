@@ -21,7 +21,7 @@ pipeline{
     steps {
         withSonarQubeEnv('SonarQube') {
             sh """${SCANNER_HOME}/bin/sonar-scanner \
-    -Dsonar.projectName="Application_deployment" \
+    -Dsonar.projectName="Application-deployment" \
     -Dsonar.projectKey="Application-deployment" \
     -Dsonar.sources=."""
         }
