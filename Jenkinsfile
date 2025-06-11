@@ -40,15 +40,12 @@ pipeline {
             }
         }
         stage('Terraform Init') {
-    agent {
-        docker {
-            image 'hashicorp/terraform:1.6.6'
-            args '-v /var/lib/jenkins/workspace/eks_deployment:/iac'
-        }
-    }
-    steps {
-        sh 'cd /iac/EKS_Terraform && terraform init'
-    }
+            steps {
+                sh '''
+                cd /var/lib/jenkins/workspace/eks_deployment/EKS_Terraform
+                terraform init
+                '''
+            }
         }
         stage('Terraform Validate') {
             steps {
