@@ -40,12 +40,7 @@ pipeline {
                 }
             }
         }
-pipeline {
-    agent {
-        docker {
-            image 'hashicorp/terraform:1.6.6'  // or your preferred version
-        }
-    }
+
         stage('Terraform Init') {
             steps {
                 sh '''
